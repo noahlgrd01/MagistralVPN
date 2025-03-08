@@ -2,11 +2,11 @@
 
 # VARIABLES GLOBALES
 CONF_FILE="/etc/MagistralVPN/vpn.conf"
-VERSION="v1.4.1"
+VERSION="v1.4.2"
 AUTEUR="NoahLgrd"
 
-LOG_DIR="/etc/MagistralVPN/logs"
-LOG_FILE="$LOG_DIR/update_$(date '+%d-%m-%Y_%H:%M:%S').log"
+LOGS_DIR="/etc/MagistralVPN/logs"
+LOGS_FILE="$LOGS_DIR/update_$(date '+%d-%m-%Y_%H:%M:%S').log"
 
 # Regex pour détecter un nombre
 re='^[0-9]+$'
@@ -111,11 +111,21 @@ update() {
     fichier_log=$LOGS_FILE
     sudo touch "$fichier_log"
     sudo chmod a+w "$fichier_log"
-    sudo git clone https://github.com/noahlgrd01/MagistralVPN >> "$fichier_log" 2&>1
-    cd MagistralVPN/
-    sudo cp MagistralVPN /bin/MagistralVPN >> "$fichier_log" 2&>1
-    cd ..
-    sudo rm -rf MagistralVPN/ >> "$fichier_log" 2&>1
+    echo "[*] Début de la mise à jour..." | sudo tee -a "$fichier_log"
+    sudo git clone https://github.com/noahlgrd01/MagistralVPN.git 2>&1 | sudo tee -a "$fichier_log"
+
+    if [ -d "MagistralVPN" ]; then
+        cd MagistralVPN/ || { echo "Erreur : Impossible d'entrer dans le dossier" | sudo tee -a "$fichier_log"; return 1; }
+        sudo cp MagistralVPN /bin/MagistralVPN 2>&1 | sudo tee -a "$fichier_log"
+        cd ..
+        sudo rm -rf MagistralVPN/ 2>&1 | sudo tee -a "$fichier_log"
+    else
+        echo "Erreur : Clonage échoué, dossier MagistralVPN introuvable." | sudo tee -a "$fichier_log"
+        return 1
+    fi
+
+    echo "[*] Mise à jour réussie !" | sudo tee -a "$fichier_log"
+    echo "[*] Redémarrer MagistralVPN pour prendre en compte les modifications" | sudo tee -a "$fichier_log"
 }
 
 # Menu d'affichage
@@ -237,8 +247,6 @@ gestionnaire() {
         # [4] Mettre à jour
         elif [ $choix -eq 4 ]; then
             update
-            echo "[*] Mise à jour réussie !"
-            echo "[*] Redémarrer MistralVPN pour prendre en compte les modifications"
             exit 0
         fi
     fi
