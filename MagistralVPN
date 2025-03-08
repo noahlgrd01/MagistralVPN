@@ -2,8 +2,11 @@
 
 # VARIABLES GLOBALES
 CONF_FILE="/etc/MagistralVPN/vpn.conf"
-VERSION="v1.3.1"
+VERSION="v1.4.1"
 AUTEUR="NoahLgrd"
+
+LOG_DIR="/etc/MagistralVPN/logs"
+LOG_FILE="$LOG_DIR/update_$(date '+%d-%m-%Y_%H:%M:%S').log"
 
 # Regex pour détecter un nombre
 re='^[0-9]+$'
@@ -105,11 +108,14 @@ genererREADME() {
 
 # Met à jour le client VPN
 update() {
-    sudo git clone https://github.com/noahlgrd01/MagistralVPN &> /dev/null
+    fichier_log=$LOGS_FILE
+    sudo touch "$fichier_log"
+    sudo chmod a+w "$fichier_log"
+    sudo git clone https://github.com/noahlgrd01/MagistralVPN >> "$fichier_log" 2&>1
     cd MagistralVPN/
-    sudo cp MagistralVPN /bin/MagistralVPN &> /dev/null
+    sudo cp MagistralVPN /bin/MagistralVPN >> "$fichier_log" 2&>1
     cd ..
-    sudo rm -rf MagistralVPN/ &> /dev/null
+    sudo rm -rf MagistralVPN/ >> "$fichier_log" 2&>1
 }
 
 # Menu d'affichage
