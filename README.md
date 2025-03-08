@@ -1,3 +1,5 @@
+![Magistral](https://raw.githubusercontent.com/noahlgrd01/MagistralVPN/main/images/magistral.jpg)
+
 # Présentation #
 
 * MagistralVPN est un client VPN opensource français, utilisant le protocole WireGuard.
