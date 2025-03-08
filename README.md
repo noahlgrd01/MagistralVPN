@@ -1,4 +1,8 @@
-![Magistral](https://raw.githubusercontent.com/noahlgrd01/MagistralVPN/main/images/magistral.jpg)
+<h1 style="display: flex; align-items: center;">
+    <img src="https://raw.githubusercontent.com/noahlgrd01/MagistralVPN/main/images/magistral.jpg" alt="Magistral" width="150" style="margin-right: 20px;">
+    MagistralVPN
+</h1>
+
 
 # Présentation #
 
@@ -14,6 +18,7 @@
     - `chmod a+x install.sh`
     - `sudo ./install.sh`
 * Il installe automatiquement le package "wireguard"
+
 
 # Désinstallation #
 
