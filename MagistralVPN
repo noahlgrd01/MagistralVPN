@@ -2,7 +2,7 @@
 
 # VARIABLES GLOBALES
 CONF_FILE="/etc/MagistralVPN/vpn.conf"
-VERSION="v2.4.4"
+VERSION="v2.4.5"
 AUTEUR="NoahLgrd"
 
 LOGS_DIR="/etc/MagistralVPN/logs"
@@ -308,6 +308,7 @@ gestionnaire() {
                 mkdir $nom_profil
                 mv client_public.key client_private.key server_public.key server_private.key README_${nom_profil}.md $nom_profil_serveur $nom_profil_client $nom_profil/
                 echo "[*] Les clés et les .conf ont été déplacées dans le répertoire ${nom_profil}"
+                echo "[!] N'oubliez pas de garder de côté les 4 clés en cas de problèmes/prochaines configuration"
                 echo "------------------------------------"
                 sleep 2
                 menu
